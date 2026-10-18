@@ -249,4 +249,27 @@ public interface SpecEchelonConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = "showNextSpecTimer",
+		name = "Show next spec timer",
+		description = "Show the seconds until your next special attack is available, next to the meter",
+		position = 6
+	)
+	default boolean showNextSpecTimer()
+	{
+		return false;
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "nextSpecTimerColor",
+		name = "Timer text color",
+		description = "Color of the next spec timer text",
+		position = 7
+	)
+	default Color nextSpecTimerColor()
+	{
+		return Color.WHITE;
+	}
 }

@@ -139,38 +139,55 @@ class SpecEchelonOverlay extends Overlay
 			graphics.setStroke(oldStroke);
 		}
 
-		int width = meterWidth;
-		int height = meterHeight;
+		Dimension size = new Dimension(meterWidth, meterHeight);
+		final String timerText = config.showNextSpecTimer() ? plugin.getNextSpecText() : null;
 
-		if (config.showTextLabel())
+		if (config.showTextLabel() || timerText != null)
 		{
 			graphics.setFont(FontManager.getRunescapeSmallFont());
-			FontMetrics metrics = graphics.getFontMetrics();
-			String text = String.valueOf(totalSpecs);
-			int textWidth = metrics.stringWidth(text);
-
-			Point position;
-			if (vertical)
+			if (config.showTextLabel())
 			{
-				// Centered below the meter.
-				position = new Point((meterWidth - textWidth) / 2, meterHeight + LABEL_GAP + metrics.getAscent());
-				height = meterHeight + LABEL_GAP + metrics.getHeight();
-				width = Math.max(width, textWidth);
+				size = drawText(graphics, String.valueOf(totalSpecs), Color.WHITE, vertical, meterWidth, meterHeight, size);
 			}
-			else
+			if (timerText != null)
 			{
-				// Vertically centered to the right of the meter.
-				position = new Point(meterWidth + LABEL_GAP, (meterHeight + metrics.getAscent() - metrics.getDescent()) / 2);
-				width = meterWidth + LABEL_GAP + textWidth;
+				size = drawText(graphics, timerText, config.nextSpecTimerColor(), vertical, meterWidth, meterHeight, size);
 			}
-
-			label.setText(text);
-			label.setColor(Color.WHITE);
-			label.setPosition(position);
-			label.render(graphics);
 		}
 
 		graphics.setComposite(oldComposite);
-		return new Dimension(width, height);
+		return size;
+	}
+
+	/**
+	 * Draws text after everything drawn so far, below it when vertical or to the right of it when
+	 * horizontal, and returns the new overall size.
+	 */
+	private Dimension drawText(Graphics2D graphics, String text, Color color, boolean vertical,
+		int meterWidth, int meterHeight, Dimension size)
+	{
+		FontMetrics metrics = graphics.getFontMetrics();
+		int textWidth = metrics.stringWidth(text);
+
+		Point position;
+		Dimension newSize;
+		if (vertical)
+		{
+			// Centered below the meter.
+			position = new Point((meterWidth - textWidth) / 2, size.height + LABEL_GAP + metrics.getAscent());
+			newSize = new Dimension(Math.max(size.width, textWidth), size.height + LABEL_GAP + metrics.getHeight());
+		}
+		else
+		{
+			// Vertically centered to the right of the meter.
+			position = new Point(size.width + LABEL_GAP, (meterHeight + metrics.getAscent() - metrics.getDescent()) / 2);
+			newSize = new Dimension(size.width + LABEL_GAP + textWidth, size.height);
+		}
+
+		label.setText(text);
+		label.setColor(color);
+		label.setPosition(position);
+		label.render(graphics);
+		return newSize;
 	}
 }

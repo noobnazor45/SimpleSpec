@@ -12,6 +12,21 @@ Each slot holds up to three specs, layered by color like a fighting game super m
 While the Tombs of Amascut Liquid Adrenaline buff is active, spec costs are halved and the
 meter can show an outline to indicate it.
 
+The Overly Draining invocation is also supported. With it active, every special attack costs
+100% no matter the weapon, or 50% while Liquid Adrenaline is active. The game does not store
+the invocation anywhere the plugin can read later, so it is picked up from the party screen in
+the lobby before the raid. If the plugin is turned on mid raid, it will know about Overly
+Draining from the next raid onward. Both raid effects only count while you are inside the
+Tombs of Amascut, so the meter stays correct after you leave.
+
+## Next spec timer
+
+An optional timer shows how many seconds until your next special attack is available, as small
+text next to the meter (for example "12s"). Spec energy regenerates 10% every 30 seconds, or
+every 15 seconds with the Lightbearer equipped, and the timer follows the same regen cycle as
+RuneLite's Regeneration Meter. It hides itself when your energy is full or the meter already
+shows 9 specs. Turn it on with "Show next spec timer" in the plugin settings.
+
 ## Supported weapons
 
 Every combat weapon whose special attack has a fixed energy cost is supported, about 90 in
@@ -32,8 +47,8 @@ either way. The overlay hides itself when no supported weapon is equipped.
 ## Configuration
 
 Tier and empty slot colors, slot size and spacing, horizontal or vertical layout, partial
-progress fill, an optional count label, and the adrenaline outline can all be changed in the
-plugin settings.
+progress fill, an optional count label, the adrenaline outline, and the next spec timer and its
+color can all be changed in the plugin settings.
 
 Under Position, the meter can either be dragged anywhere on screen, or be drawn on your
 character, next to your overhead health bar by default. In on character mode the horizontal
